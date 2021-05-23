@@ -1,16 +1,122 @@
-# This is a sample Python script.
+import ru_local
+import random
+print(ru_local.HI)
+ok = input(ru_local.OK).capitalize().strip()
+while ok != 'Ok':
+    ok = input(ru_local.RESTART).capitalize().strip()
+resources = {ru_local.LAND: random.randint(100, 500), ru_local.BUDGET: random.randint(100, 500),
+             ru_local.SEED: random.randint(100, 500), ru_local.BREAD: random.randint(100, 500),
+             ru_local.PEOPLE: random.randint(100, 500)}
+discontent = {ru_local.ANGRY: 10}
+print(ru_local.NOW, ru_local.FEERLAND, resources[ru_local.LAND],
+      ru_local.MONEY, resources[ru_local.BUDGET], ru_local.LANDSEED, resources[ru_local.SEED],
+      ru_local.BREADS, resources[ru_local.BREAD], sep='\n')
+print(ru_local.ABILITY)
+print('')
+ok = input(ru_local.OK).capitalize().strip()
+while ok != 'Ok':
+    ok = input(ru_local.RESTART).capitalize().strip()
+print(ru_local.LASTKING)
+print(ru_local.NOWANGRY,
+      discontent[ru_local.ANGRY], sep='\n')
+ok = input(ru_local.OK).capitalize().strip()
+while ok != 'Ok':
+    ok = input(ru_local.RESTART).capitalize().strip()
+print(ru_local.KING)
+data = 2020
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def res(data):
+    while data != 2040 or discontent[ru_local.ANGRY] < 100:
+        print(ru_local.NOW, data, ru_local.YEAR)
+        print(ru_local.NOW, ru_local.FEERLAND, resources[ru_local.LAND],
+              ru_local.MONEY, resources[ru_local.BUDGET], ru_local.SEEDS, resources[ru_local.SEED],
+              ru_local.BREADS, resources[ru_local.BREAD], ru_local.NOWPEOPLE,
+              resources[ru_local.PEOPLE], sep='\n')
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+        price_bread = random.randint(10, 50)
+        price_land = random.randint(10, 50)
+        price_corn = random.randint(10, 50)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+        corn_plant = int(input(ru_local.HOWSEED))
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        print(ru_local.SEEDPRICE, price_corn)
+        corn_sell = int(input(ru_local.SEEDSELL))
+        while corn_sell + corn_plant > resources[ru_local.SEED]:
+            print(ru_local.LOWSEED)
+            corn_plant = int(input(ru_local.HOWSEED))
+            corn_sell = int(input(ru_local.SEEDSELL))
+
+
+        resources[ru_local.SEED] -= corn_plant
+        resources[ru_local.SEED] -= corn_sell
+        print(ru_local.SEEDLEFT, resources[ru_local.SEED])
+
+
+        bread_people = int(input(ru_local.HOWBREAD))
+
+        print(ru_local.BREADPRICE, price_bread)
+        bread_sell = int(input(ru_local.HOWBREAD))
+        while bread_sell + bread_people > resources[ru_local.BREAD]:
+            print(ru_local.LOWBREAD)
+            bread_sell = int(input(ru_local.HOWBREAD))
+            bread_people = int(input(ru_local.BREADPEOPLE))
+
+        resources[ru_local.BREAD] -= bread_sell
+        resources[ru_local.BREAD] -= bread_people
+        print(ru_local.BREADLEFT, resources[ru_local.BREAD])
+
+
+        print(ru_local.LANDPRICE, price_land)
+        land_sell = int(input(ru_local.LANDSELL))
+        while land_sell > resources[ru_local.LAND]:
+            print(ru_local.LOWLAND)
+            land_sell = int(input(ru_local.LANDSELL))
+
+        resources[ru_local.LAND] -= land_sell
+        print(ru_local.LANDLEFT, resources[ru_local.LAND])
+
+
+        print(ru_local.LANDPRICE, price_land)
+        buy_land = int(input(ru_local.LANDBUY))
+
+        print(ru_local.BREADPRICE, price_bread)
+        buy_bread = int(input(ru_local.BREADBUY))
+
+        print(ru_local.SEEDPRICE, price_corn)
+        buy_corn = int(input(ru_local.SEEDBUY))
+
+        buy_people = int(input(ru_local.SOCMONEY))
+
+        while buy_land * price_land + buy_bread * price_bread + buy_corn * price_corn + buy_people > resources[ru_local.BUDGET]:
+
+
+            print(ru_local.LANDPRICE, price_land)
+            buy_land = int(input(ru_local.LANDBUY))
+
+            print(ru_local.BREADPRICE, price_bread)
+            buy_bread = int(input(ru_local.BREADBUY))
+
+            print(ru_local.SEEDPRICE, price_corn)
+            buy_corn = int(input(ru_local.SEEDBUY))
+
+            buy_people = int(input(ru_local.SOCMONEY))
+
+        resources[ru_local.BUDGET] -= buy_land * price_land + buy_bread * price_bread + buy_corn * price_corn + buy_people
+        print(ru_local.MONEY, resources[ru_local.BUDGET])
+
+
+        data += 1
+        resources[ru_local.BREAD] += 0.8 * corn_plant * resources[ru_local.LAND]
+        resources[ru_local.SEED] += buy_corn * price_corn
+        resources[ru_local.LAND] += buy_land * price_land
+        resources[ru_local.PEOPLE] = bread_people #надо придумать формулу для изменения количества населения
+        resources[ru_local.BUDGET] += resources[ru_local.PEOPLE] * 10 #типо налоги
+
+
+
+
+z = res(data)
+
+
