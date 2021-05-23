@@ -26,17 +26,15 @@ print(ru_local.KING)
 data = 2020
 
 def res(data):
+    '''Main function that changes the resourses'''
     while data != 2040 or discontent[ru_local.ANGRY] < 100:
-        if data % 4 == 0:
-            RandomEvent()
         print(ru_local.NOW, data, ru_local.YEAR)
-        print(ru_local.FEERLAND, resources[ru_local.LAND],
+        print(ru_local.NOW, ru_local.FEERLAND, resources[ru_local.LAND],
               ru_local.MONEY, resources[ru_local.BUDGET], ru_local.SEEDS, resources[ru_local.SEED],
               ru_local.BREADS, resources[ru_local.BREAD], ru_local.NOWPEOPLE,
               resources[ru_local.PEOPLE], sep='\n')
 
-        print(ru_local.NOWANGRY,
-              discontent[ru_local.ANGRY], sep='\n')
+
         price_bread = random.randint(10, 50)
         price_land = random.randint(10, 50)
         price_corn = random.randint(10, 50)
@@ -57,7 +55,7 @@ def res(data):
         print(ru_local.SEEDLEFT, resources[ru_local.SEED])
 
 
-        bread_people = int(input(ru_local.BREADPEOPLE))
+        bread_people = int(input(ru_local.HOWBREAD))
 
         print(ru_local.BREADPRICE, price_bread)
         bread_sell = int(input(ru_local.HOWBREAD))
@@ -80,86 +78,74 @@ def res(data):
         resources[ru_local.LAND] -= land_sell
         print(ru_local.LANDLEFT, resources[ru_local.LAND])
 
-        print(ru_local.MONEY, resources[ru_local.BUDGET])
 
         print(ru_local.LANDPRICE, price_land)
         buy_land = int(input(ru_local.LANDBUY))
-        while buy_land * price_land > resources[ru_local.BUDGET]:
-            print(ru_local.LOWMONEY)
+
+        print(ru_local.BREADPRICE, price_bread)
+        buy_bread = int(input(ru_local.BREADBUY))
+
+        print(ru_local.SEEDPRICE, price_corn)
+        buy_corn = int(input(ru_local.SEEDBUY))
+
+        buy_people = int(input(ru_local.SOCMONEY))
+
+        while buy_land * price_land + buy_bread * price_bread + buy_corn * price_corn + buy_people > resources[ru_local.BUDGET]:
+
+
             print(ru_local.LANDPRICE, price_land)
             buy_land = int(input(ru_local.LANDBUY))
 
-        resources[ru_local.BUDGET] -= buy_land * price_land
-
-        print(ru_local.MONEY, resources[ru_local.BUDGET])
-        print(ru_local.BREADPRICE, price_bread)
-        buy_bread = int(input(ru_local.BREADBUY))
-        while buy_bread * price_bread > resources[ru_local.BUDGET]:
-            print(ru_local.LOWMONEY)
             print(ru_local.BREADPRICE, price_bread)
             buy_bread = int(input(ru_local.BREADBUY))
 
-        resources[ru_local.BUDGET] -= buy_bread * price_bread
-
-        print(ru_local.MONEY, resources[ru_local.BUDGET])
-        print(ru_local.SEEDPRICE, price_corn)
-        buy_corn = int(input(ru_local.SEEDBUY))
-        while buy_corn * price_corn > resources[ru_local.BUDGET]:
-            print(ru_local.LOWMONEY)
             print(ru_local.SEEDPRICE, price_corn)
             buy_corn = int(input(ru_local.SEEDBUY))
 
-        resources[ru_local.BUDGET] -= buy_corn * price_corn
-
-        print(ru_local.MONEY, resources[ru_local.BUDGET])
-        buy_people = int(input(ru_local.SOCMONEY))
-        while buy_people > resources[ru_local.BUDGET]:
-            print(ru_local.LOWMONEY)
             buy_people = int(input(ru_local.SOCMONEY))
 
-        resources[ru_local.BUDGET] -= buy_people
-
+        resources[ru_local.BUDGET] -= buy_land * price_land + buy_bread * price_bread + buy_corn * price_corn + buy_people
+        print(ru_local.MONEY, resources[ru_local.BUDGET])
 
 
         data += 1
-        if (resources[ru_local.BREAD] + buy_people) / 2 / resources[ru_local.PEOPLE] < 1:
-            discontent[ru_local.ANGRY] += 20
-        elif (resources[ru_local.BREAD] + buy_people) / 2 / resources[ru_local.PEOPLE] > 1:
-            discontent[ru_local.ANGRY] += 20
-        resources[ru_local.BREAD] += round(0.8 * corn_plant * resources[ru_local.LAND])
-        resources[ru_local.SEED] += round(buy_corn * price_corn)
-        resources[ru_local.LAND] += round(buy_land * price_land)
-        resources[ru_local.PEOPLE] += random.randint(-1, 2)
-        resources[ru_local.BUDGET] += round(resources[ru_local.PEOPLE] * 10)
-
-print(ru_local.PRESIDENT)
-
+        resources[ru_local.BREAD] += 0.8 * corn_plant * resources[ru_local.LAND]
+        resources[ru_local.SEED] += buy_corn * price_corn
+        resources[ru_local.LAND] += buy_land * price_land
+        resources[ru_local.PEOPLE] = bread_people #надо придумать формулу для изменения количества населения
+        resources[ru_local.BUDGET] += resources[ru_local.PEOPLE] * 10 #типо налоги
 
 def drought():
+    '''This event means drought in the country'''
     print(ru_local.DROUGHT)
     resources[ru_local.SEED] = resources[ru_local.LAND] / 2
 
 def war():
+    '''This event means war in the country'''
     print(ru_local.WAR)
     resources[ru_local.BREAD] = 0
     resources[ru_local.SEED] = resources[ru_local.SEED] / 2
     resources[ru_local.PEOPLE] = resources[ru_local.PEOPLE] * 5/6
 
 def inflation():
+    '''This event means inflation in the country'''
     print(ru_local.INFLATION)
     resources[ru_local.BUDGET] = resources[ru_local.BUDGET] * 0.8
 
 def victory():
+    '''This event means taking a part of another country'''
     print(ru_local.VICTORY)
     resources[ru_local.LAND] += 1000
     resources[ru_local.BUDGET] += 200
 
 def riot():
+    '''This event means riots in the country'''
     print(ru_local.RIOT)
     resources[ru_local.PEOPLE] = resources[ru_local.PEOPLE] * 0.95
     resources[ru_local.BREAD] = resources[ru_local.BREAD] * 0.85
 
 def GoodWeather():
+    '''This event means good year for land in the country'''
     print(ru_local.WEATHER)
     resources[ru_local.SEED] = resources[ru_local.SEED] * 1.1
 
@@ -180,8 +166,9 @@ def RandomEvent():
 
 
 
+if __name__ == '__main__':
+    res(data)
 
 
-z = res(data)
 
 
