@@ -114,6 +114,50 @@ def res(data):
         resources[ru_local.PEOPLE] = bread_people #надо придумать формулу для изменения количества населения
         resources[ru_local.BUDGET] += resources[ru_local.PEOPLE] * 10 #типо налоги
 
+def drought():
+    print(ru_local.DROUGHT)
+    resources[ru_local.SEED] = resources[ru_local.LAND] / 2
+
+def war():
+    print(ru_local.WAR)
+    resources[ru_local.BREAD] = 0
+    resources[ru_local.SEED] = resources[ru_local.SEED] / 2
+    resources[ru_local.PEOPLE] = resources[ru_local.PEOPLE] * 5/6
+
+def inflation():
+    print(ru_local.INFLATION)
+    resources[ru_local.BUDGET] = resources[ru_local.BUDGET] * 0.8
+
+def victory():
+    print(ru_local.VICTORY)
+    resources[ru_local.LAND] += 1000
+    resources[ru_local.BUDGET] += 200
+
+def riot():
+    print(ru_local.RIOT)
+    resources[ru_local.PEOPLE] = resources[ru_local.PEOPLE] * 0.95
+    resources[ru_local.BREAD] = resources[ru_local.BREAD] * 0.85
+
+def GoodWeather():
+    print(ru_local.WEATHER)
+    resources[ru_local.SEED] = resources[ru_local.SEED] * 1.1
+
+def RandomEvent():
+    event = random.randint(1, 6)
+    if event == 1:
+        drought()
+    elif event == 2:
+        war()
+    elif event == 3:
+        inflation()
+    elif event == 4:
+        victory()
+    elif event == 5:
+        riot()
+    elif event == 6:
+        GoodWeather()
+
+
 
 
 
